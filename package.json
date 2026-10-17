@@ -1,0 +1,134 @@
+{
+    "name": "ghostline",
+    "displayName": "Ghostline",
+    "description": "Inline suggestions for VS Code with your model, without Copilot.",
+    "version": "0.1.0",
+    "publisher": "local",
+    "license": "MIT",
+    "repository": {
+        "url": "https://github.com/Maneuru/ghostline-vscode-extension.git"
+    },
+    "engines": {
+        "vscode": "^1.90.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "ghostline.toggle",
+                "title": "Ghostline: Enables/Disable suggestions"
+            },
+            {
+                "command": "ghostline.pickModel",
+                "title": "Ghostline: Pick Model"
+            },
+            {
+                "command": "ghostline.showLog",
+                "title": "Ghostline: Show log"
+            }
+        ],
+        "configuration": {
+            "title": "Ghostline",
+            "properties": {
+                "ghostline.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enables inline suggestions."
+                },
+                "ghostline.provider": {
+                    "type": "string",
+                    "enum": [
+                        "ollama"
+                    ],
+                    "default": "ollama",
+                    "description": "Backend which provides suggestions."
+                },
+                "ghostline.endpoint": {
+                    "type": "string",
+                    "default": "http://localhost:11434",
+                    "description": "Provider server URL."
+                },
+                "ghostline.model": {
+                    "type": "string",
+                    "default": "qwen2.5-coder:1.5b",
+                    "description": "Modello da usare, con supporto al fill-in-the-middle."
+                },
+                "ghostline.debounceMs": {
+                    "type": "number",
+                    "default": 300,
+                    "minimum": 0,
+                    "description": "ms wait since last key press."
+                },
+                "ghostline.maxTokens": {
+                    "type": "number",
+                    "default": 64,
+                    "minimum": 1,
+                    "description": "Maximun tokens per suggestion."
+                },
+                "ghostline.temperature": {
+                    "type": "number",
+                    "default": 0,
+                    "minimum": 0,
+                    "maximum": 2,
+                    "description": "Sampling temperature."
+                },
+                "ghostline.prefixChars": {
+                    "type": "number",
+                    "default": 4000,
+                    "minimum": 0,
+                    "description": "Number of context characters on left of the cursor."
+                },
+                "ghostline.suffixChars": {
+                    "type": "number",
+                    "default": 1000,
+                    "minimum": 0,
+                    "description": "Number of context characters on rigth of the cursor."
+                },
+                "ghostline.timeoutMs": {
+                    "type": "number",
+                    "default": 8000,
+                    "minimum": 500,
+                    "description": "Maximun wait for a request."
+                },
+                "ghostline.multiline": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "If disabled suggestions limits to single line."
+                },
+                "ghostline.disabledLanguages": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "plaintext",
+                        "markdown"
+                    ],
+                    "description": ""
+                },
+                "ghostline.ollama.keepAlive": {
+                    "type": "string",
+                    "default": "30m",
+                    "description": "How long Ollama keeps the model in memory after the last request"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "package": "vsce package --allow-missing-repository --skip-license"
+    },
+    "devDependencies": {
+        "@types/node": "^20.14.0",
+        "@types/vscode": "^1.90.0",
+        "@vscode/vsce": "^3.0.0",
+        "typescript": "^5.5.0"
+    }
+}
